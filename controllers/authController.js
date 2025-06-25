@@ -46,10 +46,10 @@ const registerUser = asyncHandler(async (req, res) => {
             res.status(400).json({ message: "Invalid user data" });
         }
     } catch (error) {
-        console.error('Error in registerUser:', error);
-        res.status(500).json({ 
-            message: "Error registering user", 
-            error: error.message 
+        // console.error('Error in registerUser:', error);
+        res.status(500).json({
+            message: "Error registering user",
+            error: error.message
         });
     }
 });
@@ -68,16 +68,16 @@ const loginUser = asyncHandler(async (req, res) => {
 
         // Find user
         const user = await User.findOne({ email });
-        console.log('User found:', user ? 'Yes' : 'No');
-        
+        // console.log('User found:', user ? 'Yes' : 'No');
+
         if (!user) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Password match:', isMatch ? 'Yes' : 'No');
-        
+        // console.log('Password match:', isMatch ? 'Yes' : 'No');
+
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
@@ -90,14 +90,14 @@ const loginUser = asyncHandler(async (req, res) => {
             profileImageUrl: user.profileImageUrl,
             token: generateToken(user._id)
         };
-        
-        console.log('Login successful, sending response');
+
+        // console.log('Login successful, sending response');
         res.json(response);
     } catch (error) {
-        console.error('Error in loginUser:', error);
-        res.status(500).json({ 
-            message: "Error logging in", 
-            error: error.message 
+        // console.error('Error in loginUser:', error);
+        res.status(500).json({
+            message: "Error logging in",
+            error: error.message
         });
     }
 });
@@ -113,10 +113,28 @@ const getUserProfile = asyncHandler(async (req, res) => {
         }
         res.json(user);
     } catch (error) {
-        console.error('Error in getUserProfile:', error);
-        res.status(500).json({ 
-            message: "Error fetching user profile", 
-            error: error.message 
+        // console.error('Error in getUserProfile:', error);
+        res.status(500).json({
+            message: "Error fetching user profile",
+            error: error.message
+        });
+    }
+});
+
+// @desc    Get current user (for /api/auth/me)
+// @route   GET /api/auth/me
+// @access  Private
+const getCurrentUser = asyncHandler(async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching current user",
+            error: error.message
         });
     }
 });
@@ -124,5 +142,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 module.exports = {
     registerUser,
     loginUser,
-    getUserProfile
+    getUserProfile,
+    getCurrentUser
 };

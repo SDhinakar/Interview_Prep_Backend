@@ -74,7 +74,6 @@ const addQuestionToSession = asyncHandler(async (req, res) => {
             questions: createdQuestions
         });
     } catch (error) {
-        console.error('Error in addQuestionToSession:', error);
         res.status(500).json({
             success: false,
             message: "Error adding questions",
@@ -115,7 +114,6 @@ const togglePinQuestion = asyncHandler(async (req, res) => {
             question
         });
     } catch (error) {
-        console.error('Error in togglePinQuestion:', error);
         res.status(500).json({
             success: false,
             message: "Error updating question pin status",
@@ -157,7 +155,6 @@ const updateQuestionNote = asyncHandler(async (req, res) => {
             question
         });
     } catch (error) {
-        console.error('Error in updateQuestionNote:', error);
         res.status(500).json({
             success: false,
             message: "Error updating question note",

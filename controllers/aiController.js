@@ -20,11 +20,11 @@ const generateInterviewQuestions = async (req, res) => {
         }
 
         // Destructure with default values
-        const { 
-            role = null, 
-            experience = null, 
-            topicToFocus = null, 
-            numberOfQuestions = null 
+        const {
+            role = null,
+            experience = null,
+            topicToFocus = null,
+            numberOfQuestions = null
         } = req.body;
 
         // Validate required fields
@@ -44,14 +44,14 @@ const generateInterviewQuestions = async (req, res) => {
 
         // Generate prompt
         const prompt = questionAnswerPrompt(role, experience, topicToFocus, numberOfQuestions);
-        
-        // Get model instance
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" ,contents:prompt});
 
-         // Generate content
+        // Get model instance
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite", contents: prompt });
+
+        // Generate content
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        
+
         if (!response) {
             throw new Error('No response from AI model');
         }
@@ -62,7 +62,7 @@ const generateInterviewQuestions = async (req, res) => {
             .replace(/^\s*```json\s*/, "")
             .replace(/\s*```$/, "")
             .trim();
-            
+
         // Parse and validate response
         try {
             const questions = JSON.parse(cleanedText);
@@ -117,14 +117,14 @@ const generateConceptExplanation = async (req, res) => {
 
         // Generate prompt
         const prompt = conceptExplainPrompt(question);
-        
+
         // Get model instance
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
-        
+
         // Generate content
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        
+
         if (!response) {
             throw new Error('No response from AI model');
         }
@@ -136,7 +136,7 @@ const generateConceptExplanation = async (req, res) => {
             .replace(/\s*```$/, "")
             .replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
             .trim();
-            
+
         // Parse and validate response
         try {
             const data = JSON.parse(cleanedText);

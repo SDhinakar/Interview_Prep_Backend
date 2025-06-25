@@ -31,7 +31,7 @@ exports.createSession = asyncHandler(async (req, res) => {
                     try {
 
                         if (!q?.question || !q?.answer) {
-                            console.warn(`⛔ Skipping invalid question at index ${i}`, q);
+                            // console.warn(`⛔ Skipping invalid question at index ${i}`, q);
                             return null;
                         }
 
@@ -43,7 +43,7 @@ exports.createSession = asyncHandler(async (req, res) => {
 
                         return questionDoc._id;
                     } catch (err) {
-                        console.error(`❌ Error creating question at index ${i}:`, err);
+                        // console.error(`❌ Error creating question at index ${i}:`, err);
                         throw new Error(`Failed to create question: ${err.message}`);
                     }
                 })
@@ -54,7 +54,7 @@ exports.createSession = asyncHandler(async (req, res) => {
             session.questions = validQuestionIds;
             await session.save();
 
-            console.log("Session updated with questions successfully");
+            // console.log("Session updated with questions successfully");
         }
 
         res.status(201).json({
@@ -62,7 +62,7 @@ exports.createSession = asyncHandler(async (req, res) => {
             session
         });
     } catch (error) {
-        console.error('Error in createSession:', error);
+        // console.error('Error in createSession:', error);
         res.status(500).json({
             message: "Error creating session",
             error: error.message
@@ -80,7 +80,7 @@ exports.getSessions = asyncHandler(async (req, res) => {
             .sort({ createdAt: -1 });
         res.status(200).json(sessions);
     } catch (error) {
-        console.error('Error in getSessions:', error);
+        // console.error('Error in getSessions:', error);
         res.status(500).json({
             success: false,
             error: error.message
@@ -107,7 +107,7 @@ exports.getSessionById = asyncHandler(async (req, res) => {
 
         res.status(200).json({ success: true, session });
     } catch (error) {
-        console.error('Error in getSessionById:', error);
+        // console.error('Error in getSessionById:', error);
         res.status(500).json({
             message: "Error fetching session",
             error: error.message
@@ -136,7 +136,7 @@ exports.deleteSession = asyncHandler(async (req, res) => {
 
         res.status(200).json({ success: true, message: "Session deleted successfully" });
     } catch (error) {
-        console.error('Error in deleteSession:', error);
+        // console.error('Error in deleteSession:', error);
         res.status(500).json({
             message: "Error deleting session",
             error: error.message

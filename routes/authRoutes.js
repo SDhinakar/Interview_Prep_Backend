@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const { protect } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadMiddleware");
-const { registerUser, loginUser, getUserProfile } = require("../controllers/authController");
+const { registerUser, loginUser, getUserProfile, getCurrentUser } = require("../controllers/authController");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", protect, getUserProfile);
+router.get("/me", protect, getCurrentUser);
 
 router.post("/upload-image", upload.single("image"), (req, res) => {
     if (!req.file) {
