@@ -9,7 +9,6 @@ A Node.js backend API for an interview preparation application with AI-powered q
 - **Session Management** - Track interview sessions and progress
 - **File Upload** - Handle audio/video responses
 - **MongoDB Database** - Persistent data storage
-- **Docker Support** - Containerized deployment
 
 ## 🛠️ Tech Stack
 
@@ -19,14 +18,12 @@ A Node.js backend API for an interview preparation application with AI-powered q
 - **Authentication**: JWT (JSON Web Tokens)
 - **AI**: Google Gemini AI
 - **File Upload**: Multer
-- **Containerization**: Docker
 
 ## 📋 Prerequisites
 
 - Node.js 18 or higher
 - MongoDB database
 - Google Gemini API key
-- Docker (for containerized deployment)
 
 ## 🏠 Local Development
 
@@ -61,52 +58,9 @@ A Node.js backend API for an interview preparation application with AI-powered q
    npm run dev
    ```
 
-### Docker Setup (Recommended)
-
-1. **Build and run with Docker Compose**
-
-   ```bash
-   docker-compose up -d
-   ```
-
-2. **Or build and run manually**
-
-   ```bash
-   # Build the image
-   docker build -f Dockerfile.prod -t interview-prep-backend:latest .
-
-   # Run the container
-   docker run -d --name interview-prep-backend -p 5000:5000 --env-file .env interview-prep-backend:latest
-   ```
-
 ## 🚀 Deployment
 
-### Railway (Recommended - No Cold Starts)
-
-1. **Connect to Railway**
-
-   - Go to [railway.app](https://railway.app)
-   - Connect your GitHub repository
-   - Railway will automatically detect the Dockerfile
-
-2. **Environment Variables**
-   Set these in Railway dashboard:
-
-   - `NODE_ENV=production`
-   - `PORT=5000`
-   - `MONGO_URI=your_mongodb_connection_string`
-   - `JWT_SECRET=your_jwt_secret_key`
-   - `GOOGLE_API_KEY=your_google_api_key`
-
-3. **Deploy**
-   - Railway will automatically build and deploy your Docker container
-   - No cold start issues - container runs continuously
-
-### Other Platforms
-
-- **Render**: Choose "Docker" environment
-- **DigitalOcean App Platform**: Select "Docker" as source
-- **AWS ECS/Fargate**: Push to ECR and deploy
+Deploy to your preferred Node.js hosting platform. Set the required environment variables as above.
 
 ## 📡 API Endpoints
 
@@ -148,12 +102,6 @@ npm run dev
 
 # Start production server
 npm start
-
-# Docker commands
-docker-compose up -d          # Start with Docker Compose
-docker-compose down           # Stop Docker Compose
-docker logs interview-prep-backend  # View logs
-docker restart interview-prep-backend  # Restart container
 ```
 
 ## 📁 Project Structure
@@ -181,8 +129,6 @@ backend/
 ├── uploads/                  # File upload directory
 ├── utils/
 │   └── prompts.js            # AI prompts
-├── Dockerfile                # Docker configuration
-├── docker-compose.yml        # Docker Compose setup
 └── server.js                 # Main server file
 ```
 
@@ -191,12 +137,10 @@ backend/
 - JWT-based authentication
 - CORS configuration
 - Environment variable protection
-- Non-root Docker user
 - Input validation and sanitization
 
 ## 📈 Performance Benefits
 
-- **No Cold Starts**: Docker containers run continuously
 - **Instant Responses**: No 10-15 second delays
 - **Better Resource Utilization**: Efficient resource allocation
 - **Scalability**: Easy horizontal scaling
@@ -211,17 +155,12 @@ backend/
    - Check your `MONGO_URI` in environment variables
    - Ensure MongoDB is accessible
 
-2. **Docker Build Fails**
-
-   - Check if Docker Desktop is running
-   - Verify `.dockerignore` file excludes unnecessary files
-
-3. **Environment Variables Not Working**
+2. **Environment Variables Not Working**
 
    - Ensure no spaces around `=` in `.env` file
    - Check variable names match exactly
 
-4. **Port Already in Use**
+3. **Port Already in Use**
    - Change port in `.env` file
    - Or stop existing process using port 5000
 
